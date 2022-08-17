@@ -20,7 +20,7 @@ from ortools.constraint_solver import routing_enums_pb2
 from ortools.constraint_solver import pywrapcp
 
 # constant -----------------------------------------------------------
-TIME_LIMIT = 60  # default time limit for iterated local search
+TIME_LIMIT = 60  # default time limit for solver
 
 # --------------------------------------------------------------------
 #   TSP data
@@ -158,7 +158,7 @@ def set_solution(tsp, work, routing, solution):
 #   tsp(I): TSP data
 #   work(I/O): working data
 # --------------------------------------------------------------------
-def run_or_tools(tsp, work):
+def run_or_tools(tsp, work, args):
     # Instantiate the data problem
     data = create_data_model(tsp)
 
@@ -185,7 +185,7 @@ def run_or_tools(tsp, work):
     # Setting search parameters
     # https://developers.google.com/optimization/routing/routing_options
     search_parameters = pywrapcp.DefaultRoutingSearchParameters()
-    search_parameters.time_limit.seconds = TIME_LIMIT
+    search_parameters.time_limit.seconds = int(args.time)
     search_parameters.first_solution_strategy = (
         routing_enums_pb2.FirstSolutionStrategy.AUTOMATIC
     )
@@ -241,7 +241,7 @@ def main(argv=sys.argv):
     # solve TSP
     work = Work(tsp)
     # run OR-Tools
-    run_or_tools(tsp, work)
+    run_or_tools(tsp, work, args)
 
     work.write(tsp)
     # set completion time
