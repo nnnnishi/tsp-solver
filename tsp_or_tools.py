@@ -157,7 +157,7 @@ def set_solution(tsp, work, routing, solution):
 #
 #   tsp(I): TSP data
 #   work(I/O): working data
-#   argv(I): arguments
+#   args(I): arguments
 # --------------------------------------------------------------------
 def run_or_tools(tsp, work, args):
     # Instantiate the data problem
@@ -194,7 +194,7 @@ def run_or_tools(tsp, work, args):
         routing_enums_pb2.LocalSearchMetaheuristic.AUTOMATIC
     )
 
-    # Solve the problem.
+    # Solve the problem
     print("\n[solving with OR-Tools]")
     solution = routing.SolveWithParameters(search_parameters)
 
@@ -243,7 +243,6 @@ def main(argv=sys.argv):
     work = Work(tsp)
     # run OR-Tools
     run_or_tools(tsp, work, args)
-
     work.write(tsp)
     # set completion time
     end_time = time.time()
